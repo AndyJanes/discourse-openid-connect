@@ -24,6 +24,8 @@ module ::OmniAuth
         auth_scheme: :basic_auth
 
       def discover!
+        debug("Beginning Discovery Phase.")
+        
         discovery_document = options.cache.call("openid_discovery_#{options[:client_options][:discovery_document]}") do
           client.request(:get, options[:client_options][:discovery_document], parse: :json).parsed
         end
@@ -42,10 +44,13 @@ module ::OmniAuth
 
         userinfo_endpoint = options[:client_options][:userinfo_endpoint] = discovery_document["userinfo_endpoint"].to_s
         options.use_userinfo = false if userinfo_endpoint.nil? || userinfo_endpoint.empty?
+        
+        debug("User Endpoint: #{discovery_document["userinfo_endpoint"].to_s}")
       end
 
       def request_phase
         begin
+          debug("Beginning Request Phase")
           discover! if options[:discovery]
         rescue ::OmniAuth::OpenIDConnect::DiscoveryError => e
           fail!(:openid_connect_discovery_error, e)
@@ -148,6 +153,7 @@ module ::OmniAuth
 
       def callback_url
         full_host + script_name + callback_path
+        debug("Callback URL Compiled to: #{full_host + script_name + callback_path}")
       end
 
       def get_token_options
@@ -172,6 +178,10 @@ module ::OmniAuth
         return super if options.use_userinfo
         response = client.request(:post, options[:client_options][:token_url], body: get_token_options)
         ::OAuth2::AccessToken.from_hash(client, response.parsed)
+      end
+                   
+      def debug(info)
+        Rails.logger.warn("OpenID Debug: #{info}") if SiteSetting.openid_debug_auth
       end
 
     end
