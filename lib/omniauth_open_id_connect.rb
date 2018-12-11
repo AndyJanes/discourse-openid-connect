@@ -126,15 +126,15 @@ module ::OmniAuth
       def userinfo_response
         @raw_info ||= access_token.get(options[:client_options][:userinfo_endpoint]).parsed
         return fail!(:csrf_detected, CallbackError.new(:csrf_detected, "CSRF detected")) unless @raw_info['sub'] == id_token_info['sub']
-debug("Raw Info: #{@raw_info}")
+debug("Raw Info: #{access_token}")
         @raw_info
       end
 
       uid { id_token_info['sub'] }
       
       info do
-debug("Extracting User Info")
         data_source = options.use_userinfo ? userinfo_response : id_token_info
+        debug ("User Info: #{data_source['name']}")
         prune!(
           name: data_source['name'],
           email: data_source['email'],
