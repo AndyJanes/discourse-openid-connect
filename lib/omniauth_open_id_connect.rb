@@ -131,6 +131,7 @@ module ::OmniAuth
 
       uid { id_token_info['sub'] }
 
+      debug("Extracting User Info")
       info do
         data_source = options.use_userinfo ? userinfo_response : id_token_info
         prune!(
