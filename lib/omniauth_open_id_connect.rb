@@ -21,8 +21,7 @@ module ::OmniAuth
         authorize_url: nil,
         token_url: nil,
         userinfo_endpoint: nil,
-        auth_scheme: :basic_auth,
-        callback_url: "https://chat.havenclaims.co.uk/auth/oidc/callback"
+        auth_scheme: :basic_auth
 
       def discover!
         debug("Beginning Discovery Phase.")
@@ -154,8 +153,8 @@ module ::OmniAuth
       private
 
       def callback_url
-        full_host + script_name + callback_path
         debug("Callback URL Compiled to: #{full_host + script_name + callback_path}")
+        full_host + script_name + callback_path        
       end
 
       def get_token_options
