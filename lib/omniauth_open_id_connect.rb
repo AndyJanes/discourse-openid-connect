@@ -8,7 +8,7 @@ module ::OmniAuth
   module Strategies
     class OpenIDConnect < OmniAuth::Strategies::OAuth2
       option :scope, "openid"
-      option :discovery, true
+      option :discovery, false
       option :use_userinfo, true
       option :cache, lambda { |key, &blk| blk.call } # Default no-op cache
       option :error_handler, lambda { |error, message| nil } # Default no-op handler
