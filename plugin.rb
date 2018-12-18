@@ -1,6 +1,6 @@
 # name: discourse-openid-connect
 # about: Add support for openid-connect as a login provider
-# version: 1.0
+# version: 1.1a
 # authors: David Taylor
 # url: https://github.com/discourse/discourse-openid-connect
 
