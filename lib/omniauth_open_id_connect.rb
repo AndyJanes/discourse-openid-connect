@@ -45,6 +45,9 @@ module ::OmniAuth
         userinfo_endpoint = options[:client_options][:userinfo_endpoint] = discovery_document["userinfo_endpoint"].to_s
         options.use_userinfo = false if userinfo_endpoint.nil? || userinfo_endpoint.empty?
         
+        ## Override User Endpoint
+        options.use_userinfo = false
+        
         debug("User Endpoint: #{discovery_document["userinfo_endpoint"].to_s}")
       end
 
